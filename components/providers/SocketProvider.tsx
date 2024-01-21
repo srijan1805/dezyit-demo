@@ -1,12 +1,28 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useAppDispatch } from "@/hooks/redux";
+import { setWorkspaces } from "@/redux/workspace.reducer";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
 
 type Props = {};
 
+const SocketContext = createContext<{
+  socket: null | Socket;
+}>({
+  socket: null,
+});
+
+export function useSocket() {
+  return useContext(SocketContext);
+}
+
 function SocketProvider({ children }: React.PropsWithChildren<Props>) {
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const socketInitializer = async () => {
       const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL ?? "", {
@@ -24,13 +40,32 @@ function SocketProvider({ children }: React.PropsWithChildren<Props>) {
         toast.success("Socket connected", {
           toastId: "socket-connected",
         });
+        setSocket(socket);
+      });
+
+      socket.emit("getAllWorkspaces");
+
+      socket.on("successResponse", (data: SuccessResponse) => {
+        switch (data.type) {
+          case "workspaces_fetched":
+            dispatch(setWorkspaces(data.response.workspaces));
+            break;
+
+          default:
+            console.log("unknown event type", data.type);
+        }
+        console.log("data", data);
       });
     };
 
     socketInitializer();
   }, []);
 
-  return <div>{children}</div>;
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
 }
 
 export default SocketProvider;

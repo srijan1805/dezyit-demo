@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <SocketProvider>{children}</SocketProvider>
       <ToastContainer
         position="top-center"
-        theme="colored"
+        theme="dark"
         autoClose={1000}
         closeOnClick
         transition={Slide}

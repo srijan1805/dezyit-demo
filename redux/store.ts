@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import socketReducer from "./socket.reducer";
+import workspaceReducer from "./workspace.reducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      socket: socketReducer,
+      workspace: workspaceReducer,
     },
   });
 };
