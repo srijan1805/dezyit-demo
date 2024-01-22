@@ -10,13 +10,14 @@ type Props = {
   options: DropdownOption[];
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 };
 
-function Dropdown({ options, value = "Select", onChange }: Props) {
+function Dropdown({ options, value = "Select", onChange, disabled }: Props) {
   return (
     <div className="dropdown dropdown-end">
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
+        <DropdownMenu.Trigger disabled={disabled} asChild>
           <button className="btn uppercase" aria-label="Customise options">
             {value}
           </button>

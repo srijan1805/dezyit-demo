@@ -16,12 +16,18 @@ const socketSlice = createSlice({
     setWorkspaces: (state, action: PayloadAction<Workspace[]>) => {
       state.workspaces = action.payload;
     },
-    addWorkspaces: (state, action: PayloadAction<Workspace>) => {
-      state.workspaces = [action.payload, ...state.workspaces];
+    addWorkspace: (state, action: PayloadAction<Workspace>) => {
+      state.workspaces = [...state.workspaces, action.payload];
+    },
+    updateWorkspace: (state, action: PayloadAction<Workspace>) => {
+      state.workspaces = state.workspaces.map((w) =>
+        w._id === action.payload._id ? action.payload : w
+      );
     },
   },
 });
 
-export const { setWorkspaces } = socketSlice.actions;
+export const { setWorkspaces, addWorkspace, updateWorkspace } =
+  socketSlice.actions;
 
 export default socketSlice.reducer;

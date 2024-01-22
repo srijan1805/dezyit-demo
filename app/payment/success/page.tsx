@@ -1,32 +1,15 @@
-"use client";
-
-import manageSubscription from "@/lib/manageSubscription";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 function PaymentSuccess() {
-  const router = useRouter();
-
-  async function handleClick() {
-    const { error, url } = await manageSubscription();
-
-    if (error) {
-      alert(error);
-      return;
-    }
-
-    if (url) {
-      router.push(url);
-    }
-  }
   return (
     <>
       <div className="text-center">
-        Payment Success. Your purchase has been confirmed!{" "}
+        Payment Success. Your purchase has been confirmed!
       </div>
-      <button onClick={() => handleClick()} className="btn btn-secondary">
-        Manage Subscription
-      </button>
+      <Link href="/" className="btn btn-secondary">
+        Okay
+      </Link>
     </>
   );
 }

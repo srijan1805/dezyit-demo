@@ -13,12 +13,15 @@ function WorkspaceItems({}: Props) {
     <ul>
       {workspaces.map((w) => (
         <li key={w._id} className="">
-          <Link href={w.slug}>
+          <Link replace href={`/${w.slug}`}>
             {w.name}
             {w.subscription === "free" && (
-              <span className="badge badge-sm badge-accent badge-outline">
+              <span className="badge badge-sm badge-accent badge-outline text-xs">
                 free
               </span>
+            )}
+            {w.subscription === "pro" && (
+              <span className="badge badge-sm badge-warning text-xs">pro</span>
             )}
           </Link>
         </li>

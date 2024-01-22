@@ -1,35 +1,42 @@
 "use client";
-
 import { useSocket } from "@/components/providers/SocketProvider";
 import Spinner from "@/components/ui/Spinner";
-import { SuccessResponse } from "@/types/socket";
+import { Sprint } from "@/types";
+import { ErrorResponse, SuccessResponse } from "@/types/socket";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import SprintCard from "../_components/SprintCard";
 
-function RecentPage() {
+function LegacyPage() {
     const { socket } = useSocket();
     const [loading, setLoading] = useState(true);
-    const [sprints, setSprints] = useState([]);
+    const [sprints, setSprints] = useState<Sprint[]>([]);
 
     useEffect(() => {
-        if (!socket) {
-            return;
-        }
-        socket.emit("fetchSprintList", {
+        socket?.emit("fetchSprintList", {
             pageNumber: 1,
-            workspaceId: "recent",
+            workspaceId: "legacy",
+            limit: 20,
         });
 
-        socket.on("successResponse", (data: SuccessResponse) => {
+        socket?.on("successResponse", (data: SuccessResponse) => {
             if (data.type === "sprint_list") {
+                setSprints(data.response.sprintList);
                 setLoading(false);
             }
         });
-    }, []);
+
+        socket?.on("errorInfo", (data: ErrorResponse) => {
+            setLoading(false);
+            toast.error("Error fetching sprints");
+        });
+    }, [socket?.connected]);
+
     return (
         <div className="flex flex-col items-start justify-start h-full w-full space-y-6">
             <div className="inline-flex flex-row items-center justify-between w-full gap-3">
                 <div className="text-xl capitalize flex items-center space-x-2">
-                    <span>Recent Sprints</span>
+                    <span>Legacy Sprints</span>
                 </div>
             </div>
             <div className="divider" />
@@ -37,7 +44,11 @@ function RecentPage() {
             {loading ? (
                 <Spinner />
             ) : sprints.length > 0 ? (
-                <div>sprints</div>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+                    {sprints.map((s, i) => (
+                        <SprintCard key={s._id} sprint={s} />
+                    ))}
+                </div>
             ) : (
                 <div>No sprints to show</div>
             )}
@@ -45,4 +56,4 @@ function RecentPage() {
     );
 }
 
-export default RecentPage;
+export default LegacyPage;

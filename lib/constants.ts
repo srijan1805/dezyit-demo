@@ -1,5 +1,7 @@
 import { DropdownOption } from "@/components/ui/Dropdown";
 
+export const FREE_TRIAL = 14;
+
 export const accessOptions: DropdownOption[] = [
   {
     label: "Edit",
