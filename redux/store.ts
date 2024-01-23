@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import workspaceReducer from "./workspace.reducer";
+import sprintsReducer from "./sprints.reducer";
 
 export const makeStore = () => {
-  return configureStore({
-    reducer: {
-      workspace: workspaceReducer,
-    },
-  });
+    return configureStore({
+        reducer: {
+            workspace: workspaceReducer,
+            sprints: sprintsReducer,
+        },
+    });
 };
 
 // Infer the type of makeStore

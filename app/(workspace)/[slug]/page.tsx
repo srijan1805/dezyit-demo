@@ -1,10 +1,14 @@
 "use client";
 
 import { useAppSelector } from "@/hooks/redux";
-import { FREE_TRIAL } from "@/lib/constants";
-import { addDays, dateDiffInDays } from "@/lib/date-fns";
 import Link from "next/link";
 import TrialAlert from "../_components/TrialAlert";
+import { useEffect, useMemo, useState } from "react";
+import { useSocket } from "@/components/providers/SocketProvider";
+import { Sprint } from "@/types";
+import { ErrorResponse, SuccessResponse } from "@/types/socket";
+import { toast } from "react-toastify";
+import SprintsContainer from "../_components/SprintsContainer";
 
 export default function WorkspacePage({
     params,
@@ -16,6 +20,32 @@ export default function WorkspacePage({
     const workspace = workspaces.find(
         (workspace) => workspace.slug === params.slug
     );
+
+    const { socket } = useSocket();
+    const [loading, setLoading] = useState(true);
+    const [sprints, setSprints] = useState<Sprint[]>([]);
+
+    useEffect(() => {
+        if (workspace) {
+            socket?.emit("fetchSprintList", {
+                pageNumber: 1,
+                workspaceId: workspace._id,
+                limit: 20,
+            });
+        }
+
+        socket?.on("successResponse", (data: SuccessResponse) => {
+            if (data.type === "sprint_list") {
+                setSprints(data.response.sprintList);
+                setLoading(false);
+            }
+        });
+
+        socket?.on("errorInfo", (data: ErrorResponse) => {
+            setLoading(false);
+            toast.error("Error fetching sprints");
+        });
+    }, [socket?.connected, workspace?._id]);
 
     return (
         <>
@@ -40,7 +70,7 @@ export default function WorkspacePage({
                     )}
                     <div className="divider" />
 
-                    <div className="text-center">No Sprints to show</div>
+                    <SprintsContainer sprints={sprints} loading={loading} />
                 </>
             )}
         </>

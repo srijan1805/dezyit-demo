@@ -1,4 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/CustomDropdown";
 import { Sprint } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -21,18 +27,31 @@ function SprintCard({ sprint, className }: Props) {
                 className
             )}
         >
-            <button className="absolute right-2 top-2 btn btn-circle btn-ghost btn-sm">
-                <EllipsisVerticalIcon className="h-6 w-6" />
-            </button>
-            <div className="card-body space-y-3 md:space-y-0">
-                <div className="flex flex-col items-center md:flex-row md:justify-between gap-2">
+            <DropdownMenu>
+                <div className="dropdown">
+                    <DropdownMenuTrigger className="absolute right-2 top-2 btn btn-circle btn-ghost btn-sm">
+                        <EllipsisVerticalIcon className="h-6 w-6" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <DropdownMenuItem>Open</DropdownMenuItem>
+                        <DropdownMenuItem>Open in new tab</DropdownMenuItem>
+                        <DropdownMenuItem>Move</DropdownMenuItem>
+                        <DropdownMenuItem>Archive</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </div>
+            </DropdownMenu>
+
+            <div className="card-body space-y-3">
+                <div className="flex items-center flex-row justify-between gap-2">
                     <h2 className="card-title">{sprint.sprintName}</h2>
                     <div
                         className={`radial-progress ${
-                            sprint.progress <= 33
+                            sprint.progress <= 25
                                 ? "text-error"
-                                : sprint.progress > 33 && sprint.progress < 66
+                                : sprint.progress > 25 && sprint.progress <= 50
                                 ? "text-warning"
+                                : sprint.progress > 50 && sprint.progress < 75
+                                ? "text-accent"
                                 : "text-success"
                         }`}
                         // @ts-ignore: Unreachable code error
@@ -42,7 +61,7 @@ function SprintCard({ sprint, className }: Props) {
                         {sprint.progress}%
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row md:justify-between gap-2">
+                <div className="flex flex-row justify-between gap-2">
                     <div className="avatar-group -space-x-5 rtl:space-x-reverse self-center">
                         {sprint.members.slice(0, 4).map((m) => (
                             <Avatar

@@ -6,6 +6,7 @@ import { ErrorResponse, SuccessResponse } from "@/types/socket";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SprintCard from "../_components/SprintCard";
+import SprintsContainer from "../_components/SprintsContainer";
 
 function LegacyPage() {
     const { socket } = useSocket();
@@ -41,17 +42,7 @@ function LegacyPage() {
             </div>
             <div className="divider" />
 
-            {loading ? (
-                <Spinner />
-            ) : sprints.length > 0 ? (
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
-                    {sprints.map((s, i) => (
-                        <SprintCard key={s._id} sprint={s} />
-                    ))}
-                </div>
-            ) : (
-                <div>No sprints to show</div>
-            )}
+            <SprintsContainer sprints={sprints} loading={loading} />
         </div>
     );
 }

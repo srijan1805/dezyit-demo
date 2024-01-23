@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/ui/Spinner";
 import { useAppSelector } from "@/hooks/redux";
+import { BACKEND_URL } from "@/lib/env";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
@@ -26,6 +27,7 @@ export default function Home({ searchParams }: Props) {
 
     const [seats, setSeats] = useState<number>(1);
     const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState<boolean>(false);
 
     useEffect(() => {
         console.log("use effect ran");
@@ -54,13 +56,14 @@ export default function Home({ searchParams }: Props) {
             return;
         }
 
+        setSubmitting(true);
         const body = {
             workspaceId,
             seats,
         };
 
         axios
-            .post("http://localhost:3000/api/v1/payments/checkout", body, {
+            .post(`${BACKEND_URL}/api/v1/payments/checkout`, body, {
                 headers: {
                     Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTH_TOKEN}`,
                 },
@@ -81,8 +84,12 @@ export default function Home({ searchParams }: Props) {
                 if (err.response.status === 409) {
                     router.push(err.response.data.redirectUrl);
                 } else {
-                    alert(err.response.data.msg);
+                    toast.error(
+                        "Oops! Something went wrong. Please try again after some time."
+                    );
                 }
+
+                setSubmitting(false);
             });
     }
 
@@ -114,9 +121,10 @@ export default function Home({ searchParams }: Props) {
                                 }
                                 type="number"
                                 className="input input-bordered w-full max-w-xs"
+                                disabled
                             />
 
-                            <button
+                            {/* <button
                                 onClick={() =>
                                     setSeats((prev) =>
                                         prev <= 1 ? prev : prev - 1
@@ -131,16 +139,21 @@ export default function Home({ searchParams }: Props) {
                                 className="btn btn-neutral"
                             >
                                 +
-                            </button>
+                            </button> */}
                         </div>
                         <h2 className="card-title">
-                            {seats * COST_PER_SEAT} $
+                            {seats * COST_PER_SEAT}$ / month
                         </h2>
                         <button
+                            disabled={submitting}
                             onClick={() => handleCheckout()}
                             className="btn btn-outline btn-accent"
                         >
-                            Checkout
+                            {submitting ? (
+                                <span className="loading loading-spinner"></span>
+                            ) : (
+                                "Checkout"
+                            )}
                         </button>
                     </div>
                 </div>

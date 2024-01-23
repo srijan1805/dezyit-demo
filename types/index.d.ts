@@ -29,11 +29,11 @@ export type IAccessType = "EDIT" | "VIEW";
 export type SprintMembers = {
     access: IAccessType;
     isSprintOwner: boolean;
-    _id: ObjectId;
+    _id: string;
 } & IBasicUserInfo;
 
 export type Invitation = {
-    _id: Types.ObjectId | string;
+    _id: string;
     email: string;
     access: IAccessType;
 };
@@ -57,4 +57,14 @@ export type Sprint = {
     globalAccess: IAccessType;
     isDeleted: boolean;
     usersInRoom: IBasicUserInfo[];
+};
+
+export type Billing = {
+    _id: string;
+    userId: string;
+    workspaceId: string | null;
+    subscriptionId: string;
+    startDate: Date;
+    endDate: Date;
+    amount: number;
 };
