@@ -41,7 +41,7 @@ function SubscriptionDetails({ workspace }: Props) {
                         </span>
                     </div>
                     <div className="stat-value">
-                        ${data.subscription.amount / 100}
+                        ${data.subscription?.amount / 100}
                     </div>
                     <div className="">per month</div>
                 </div>
