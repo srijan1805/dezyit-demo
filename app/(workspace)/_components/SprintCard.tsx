@@ -10,6 +10,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import React from "react";
 import { twMerge } from "tailwind-merge";
+import { Crown } from "lucide-react";
 
 type Props = {
     sprint: Sprint;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 function SprintCard({ sprint, className }: Props) {
+    const isSprintMaster = sprint.sprintMaster === "64831dcb52328b92810508c1";
     return (
         <div
             onContextMenu={() => {
@@ -27,6 +29,11 @@ function SprintCard({ sprint, className }: Props) {
                 className
             )}
         >
+            {isSprintMaster && (
+                <div className="bg-warning text-warning p-1 absolute left-1 top-1 rounded-full">
+                    <Crown className="text-neutral" size={24} strokeWidth={2} />
+                </div>
+            )}
             <DropdownMenu>
                 <div className="dropdown">
                     <DropdownMenuTrigger className="absolute right-2 top-2 btn btn-circle btn-ghost btn-sm">
@@ -35,8 +42,12 @@ function SprintCard({ sprint, className }: Props) {
                     <DropdownMenuContent className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                         <DropdownMenuItem>Open</DropdownMenuItem>
                         <DropdownMenuItem>Open in new tab</DropdownMenuItem>
-                        <DropdownMenuItem>Move</DropdownMenuItem>
-                        <DropdownMenuItem>Archive</DropdownMenuItem>
+                        {isSprintMaster && (
+                            <>
+                                <DropdownMenuItem>Move</DropdownMenuItem>
+                                <DropdownMenuItem>Archive</DropdownMenuItem>
+                            </>
+                        )}
                     </DropdownMenuContent>
                 </div>
             </DropdownMenu>
