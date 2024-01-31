@@ -54,7 +54,7 @@ export default function WorkspacePage({
                     <div className="inline-flex flex-row items-center justify-between w-full gap-3">
                         <div className="text-xl capitalize flex items-center space-x-2">
                             <span>{workspace.name}</span>
-                            {workspace.subscription === "pro" && (
+                            {workspace.subscriptionStatus === "pro" && (
                                 <span className="badge badge-warning">pro</span>
                             )}
                         </div>
@@ -65,7 +65,7 @@ export default function WorkspacePage({
                             Manage Workspace
                         </Link>
                     </div>
-                    {workspace.subscription === "free" && (
+                    {workspace.subscriptionStatus === "free" && (
                         <TrialAlert workspace={workspace} />
                     )}
                     <div className="divider" />
