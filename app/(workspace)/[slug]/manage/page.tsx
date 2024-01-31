@@ -58,7 +58,7 @@ function ManageWorkspace({ params }: { params: { slug: string } }) {
         <>
             {workspace && (
                 <>
-                    {workspace.subscription === "free" && (
+                    {workspace.subscriptionStatus === "free" && (
                         <TrialAlert workspace={workspace} />
                     )}
                     <div className="">
@@ -95,16 +95,7 @@ function ManageWorkspace({ params }: { params: { slug: string } }) {
                         handleAddMember={handleAddMember}
                         hideLabel
                     />
-                    <MemberCard
-                        member={{
-                            role: "owner",
-                            email: workspace.owner.email,
-                            name: workspace.owner.name,
-                            userId: workspace.owner.userId,
-                            photoURL: workspace.owner.photoURL,
-                        }}
-                        key={`member-card-${workspace.owner.userId}`}
-                    />
+
                     {members.map((m, i) => (
                         <MemberCard
                             member={m}

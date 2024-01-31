@@ -12,13 +12,20 @@ export type WorkspaceMember = {
     addedAt?: Date;
 } & IBasicUserInfo;
 
+export type SubscriptionStatus =
+    | "free"
+    | "free-trial-expired"
+    | "pro"
+    | "subscription-paused"
+    | "subscription-expired"
+    | "payment-due";
 export type Workspace = {
     _id: string;
     name: string;
     slug: string;
     owner: IBasicUserInfo;
     members: WorkspaceMember[];
-    subscription: "pro" | "free" | "cancelled" | "payment-due";
+    subscriptionStatus: SubscriptionStatus;
     lastBilling: string | null;
     createdAt: Date;
     updatedAt: Date;
