@@ -30,7 +30,7 @@ function SprintCard({ sprint, className }: Props) {
             )}
         >
             {isSprintMaster && (
-                <div className="bg-warning text-warning p-1 absolute left-1 top-1 rounded-full">
+                <div className="bg-warning text-warning p-1 absolute left-3 top-3 rounded-full">
                     <Crown className="text-neutral" size={24} strokeWidth={2} />
                 </div>
             )}
