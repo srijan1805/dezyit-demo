@@ -70,6 +70,7 @@ export type Billing = {
     _id: string;
     userId: string;
     workspaceId: string | null;
+    subscriptionStatus: string;
     subscriptionId: string;
     startDate: Date;
     endDate: Date;

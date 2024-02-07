@@ -1,14 +1,15 @@
 "use client";
 
 import { useSocket } from "@/components/providers/SocketProvider";
-import Spinner from "@/components/ui/Spinner";
+import { Sprint } from "@/types";
 import { SuccessResponse } from "@/types/socket";
 import React, { useEffect, useState } from "react";
+import SprintsContainer from "../_components/SprintsContainer";
 
 function RecentPage() {
     const { socket } = useSocket();
     const [loading, setLoading] = useState(true);
-    const [sprints, setSprints] = useState([]);
+    const [sprints, setSprints] = useState<Sprint[]>([]);
 
     useEffect(() => {
         if (!socket) {
@@ -21,6 +22,8 @@ function RecentPage() {
 
         socket.on("successResponse", (data: SuccessResponse) => {
             if (data.type === "sprint_list") {
+                setSprints(data.response.sprintList);
+
                 setLoading(false);
             }
         });
@@ -34,13 +37,7 @@ function RecentPage() {
             </div>
             <div className="divider" />
 
-            {loading ? (
-                <Spinner />
-            ) : sprints.length > 0 ? (
-                <div>sprints</div>
-            ) : (
-                <div>No sprints to show</div>
-            )}
+            <SprintsContainer sprints={sprints} loading={loading} />
         </div>
     );
 }

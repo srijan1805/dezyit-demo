@@ -1,6 +1,6 @@
 import { DropdownOption } from "@/components/ui/Dropdown";
 
-export const FREE_TRIAL = 3;
+export const FREE_TRIAL = 1;
 
 export const accessOptions: DropdownOption[] = [
     {

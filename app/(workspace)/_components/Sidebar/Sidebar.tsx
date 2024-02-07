@@ -1,24 +1,27 @@
-import {
-    ArchiveBoxIcon,
-    ClockIcon,
-    PlusIcon,
-    Square3Stack3DIcon,
-} from "@heroicons/react/24/outline";
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import WorkspaceItems from "./WorkspaceItems";
 import { twMerge } from "tailwind-merge";
+import { ArchiveIcon, Package, Plus, RotateCcw } from "lucide-react";
 
-function Sidebar() {
+type Props = {
+    className?: string;
+    handleClose?: () => void;
+};
+
+function Sidebar({ className, handleClose }: Props) {
     return (
         <ul
             className={twMerge(
-                "hidden lg:block menu bg-base-200 w-auto lg:w-64 xl:w-80 rounded-box h-full md:text-md capitalize space-y-1"
+                "block menu bg-base-200 w-auto lg:w-64 xl:w-80 rounded-box h-full md:text-md capitalize space-y-1",
+                className
             )}
         >
-            <li>
+            <li onClick={() => handleClose?.()}>
                 <Link href="/recent" className="whitespace-nowrap">
-                    <ClockIcon className="h-5 w-5" />
+                    <RotateCcw className="h-5 w-5" />
                     Recent Items
                 </Link>
             </li>
@@ -27,25 +30,26 @@ function Sidebar() {
                     <h2>Workspaces</h2>
                     <div className="tooltip " data-tip="Create new workspace">
                         <Link
+                            onClick={() => handleClose?.()}
                             href="/create-workspace"
                             className="btn btn-sm btn-circle btn-primary"
                         >
-                            <PlusIcon className="h-5 w-5" />
+                            <Plus className="h-5 w-5" />
                         </Link>
                     </div>
                 </div>
 
-                <WorkspaceItems />
+                <WorkspaceItems handleClose={handleClose} />
             </li>
-            <li>
+            <li onClick={() => handleClose?.()}>
                 <Link href="/legacy" className="whitespace-nowrap">
-                    <Square3Stack3DIcon className="h-5 w-5" />
+                    <Package className="h-5 w-5" />
                     Legacy Sprints
                 </Link>
             </li>
-            <li>
+            <li onClick={() => handleClose?.()}>
                 <Link href="/archived" className="whitespace-nowrap">
-                    <ArchiveBoxIcon className="h-5 w-5" />
+                    <ArchiveIcon className="h-5 w-5" />
                     Archived
                 </Link>
             </li>

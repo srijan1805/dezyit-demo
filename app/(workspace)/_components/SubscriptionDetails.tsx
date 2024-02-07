@@ -10,8 +10,12 @@ type Props = {
     workspace: Workspace;
 };
 
+type ResponseType = {
+    subscription: Billing;
+};
+
 function SubscriptionDetails({ workspace }: Props) {
-    const { isPending, error, data } = useQuery<{ subscription: Billing }>({
+    const { isPending, error, data } = useQuery<ResponseType>({
         queryKey: [`${workspace._id}-subscription`],
         queryFn: () =>
             axios
@@ -30,6 +34,8 @@ function SubscriptionDetails({ workspace }: Props) {
 
     if (error) return <span>{"An error has occurred: " + error.message}</span>;
 
+    const { subscription } = data;
+
     return (
         <div className="card w-fit">
             <div className="stats bg-primary text-primary-content">
@@ -41,7 +47,7 @@ function SubscriptionDetails({ workspace }: Props) {
                         </span>
                     </div>
                     <div className="stat-value">
-                        ${data.subscription?.amount / 100}
+                        ${subscription.amount / 100}
                     </div>
                     <div className="">per month</div>
                 </div>
@@ -51,15 +57,9 @@ function SubscriptionDetails({ workspace }: Props) {
                         {workspace.members.length || 1} Users
                     </div>
                     <div className="">
-                        {format(
-                            new Date(data.subscription.startDate),
-                            "do-MMM-yy"
-                        )}
+                        {format(new Date(subscription.startDate), "do-MMM-yy")}
                         {" to "}
-                        {format(
-                            new Date(data.subscription.endDate),
-                            "do-MMM-yy"
-                        )}
+                        {format(new Date(subscription.endDate), "do-MMM-yy")}
                     </div>
                 </div>
             </div>

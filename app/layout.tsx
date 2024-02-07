@@ -18,7 +18,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" data-theme="dark">
+        <html
+            lang="en"
+            data-theme="dark"
+            className="scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+        >
             <body className={inter.className}>
                 <Providers>{children}</Providers>
             </body>

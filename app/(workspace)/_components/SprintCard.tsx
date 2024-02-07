@@ -6,11 +6,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/CustomDropdown";
 import { Sprint } from "@/types";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import { Crown } from "lucide-react";
+import { Crown, MoreVertical } from "lucide-react";
 
 type Props = {
     sprint: Sprint;
@@ -37,7 +36,7 @@ function SprintCard({ sprint, className }: Props) {
             <DropdownMenu>
                 <div className="dropdown">
                     <DropdownMenuTrigger className="absolute right-2 top-2 btn btn-circle btn-ghost btn-sm">
-                        <EllipsisVerticalIcon className="h-6 w-6" />
+                        <MoreVertical className="h-6 w-6" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                         <DropdownMenuItem>Open</DropdownMenuItem>

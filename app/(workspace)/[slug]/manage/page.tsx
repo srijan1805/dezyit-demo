@@ -96,6 +96,12 @@ function ManageWorkspace({ params }: { params: { slug: string } }) {
                         hideLabel
                     />
 
+                    <MemberCard
+                        member={{ ...workspace.owner, role: "owner" }}
+                        key={`owner-card-${workspace.owner.userId}`}
+                        showDeleteBtn
+                        handleRemove={handleRemove}
+                    />
                     {members.map((m, i) => (
                         <MemberCard
                             member={m}

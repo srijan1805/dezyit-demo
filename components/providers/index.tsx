@@ -27,7 +27,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                     shallowRouting
                 />
                 <ToastContainer
-                    position="top-center"
+                    position="bottom-right"
                     theme="dark"
                     autoClose={1000}
                     closeOnClick
