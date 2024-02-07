@@ -3,7 +3,6 @@
 import Spinner from "@/components/ui/Spinner";
 import { useAppSelector } from "@/hooks/redux";
 import { BACKEND_URL } from "@/lib/env";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -105,7 +104,7 @@ export default function Home({ searchParams }: Props) {
                                 onClick={() => router.back()}
                                 className="btn btn-ghost btn-sm"
                             >
-                                <ArrowLeftIcon className="h-5 w-5" />
+                                {/* <ArrowLeftIcon className="h-5 w-5" /> */}
                                 Go Back
                             </button>
                         </div>
